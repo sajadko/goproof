@@ -3,7 +3,10 @@
 A simple and smooth validation package for GoLang ( and Frameworks )
 
 
-Usage
+**Usage Examples**
+---
+
+Email Check
 ---
 ```go
 const myEmail string = "test@testgoproof.test"
@@ -17,6 +20,23 @@ if len(validationErrors) > 0 {
 }
 
 ```
+
+Number Check
+---
+```go
+const number int = 25
+validationErrors2 := Validate(number, [][]string{
+	{"gt","12", "the number isn't greater than 12"},
+	{"lt","30", "the number isn't less than 30"},
+})
+
+if len(validationErrors2) > 0 {
+	log.Print(validationErrors2)
+}
+
+```
+
+
 **The "Validation" main function returns the errors.**
 
 

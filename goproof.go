@@ -191,6 +191,18 @@ func testRule(w http.ResponseWriter, r *http.Request) {
 		log.Print(validationErrors)
 	}
 
+
+	const number int = 25
+	validationErrors2 := Validate(number, [][]string{
+		{"gt","12", "the number isn't greater than 12"},
+		{"lt","30", "the number isn't less than 30"},
+	})
+	
+	if len(validationErrors2) > 0 {
+		log.Print(validationErrors2)
+	}
+
+
 }
 
 func handleRequests() {
