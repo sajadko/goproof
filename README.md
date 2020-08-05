@@ -7,7 +7,6 @@ Usage Examples
 ---
 
 #### Email Check
----
 ```go
 const myEmail string = "test@testgoproof.test"
 
@@ -22,7 +21,6 @@ if len(validationErrors) > 0 {
 ```
 
 #### Number Check
----
 ```go
 const number int = 25
 validationErrors2 := Validate(number, [][]string{
