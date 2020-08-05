@@ -61,7 +61,7 @@ func HasNumbers(stringInput), theMessage)                       ===> hasnumber
 	
 func HasLetters(stringInput), theMessage)                       ===> hasletter
 	
-func ContainSomthing(stringInput, stringValue), theMessage      ===> containsomthing
+func ContainSomthing(stringInput, stringValue), theMessage)     ===> containsomthing
 
 
 
@@ -69,15 +69,15 @@ func ContainSomthing(stringInput, stringValue), theMessage      ===> containsomt
 #-- For Numeric Values
 
 
-func IsEqualNumeric(floatInput, floatValue), theMessage      	===> equal
+func IsEqualNumeric(floatInput, floatValue), theMessage)		===> equal
 
-func GreaterThan(floatInput, floatValue), theMessage      		===> gt
+func GreaterThan(floatInput, floatValue), theMessage)			===> gt
 
-func GreaterThanOrEqual(floatInput, floatValue), theMessage     ===> gteq
+func GreaterThanOrEqual(floatInput, floatValue), theMessage)	===> gteq
 
-func LessThan(floatInput, floatValue), theMessage      			===> lt
+func LessThan(floatInput, floatValue), theMessage)				===> lt
 
-func LessThanOrEqual(floatInput, floatValue), theMessage      	===> lteq
+func LessThanOrEqual(floatInput, floatValue), theMessage)		===> lteq
 
 
 
