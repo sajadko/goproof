@@ -29,39 +29,39 @@ Functions and Keywords
 #-- For Strings
 
 
-func MaxLength(stringInput string, stringValue string ), theMessage string) bool         ===> max
+func MaxLength(stringInput string, stringValue string ) bool         ===> max
 			
-func MinLength(stringInput string, stringValue string ), theMessage string) bool         ===> min
+func MinLength(stringInput string, stringValue string ) bool         ===> min
 			
-func IsEmail(stringInput string), theMessage string) bool                                ===> email
+func IsEmail(stringInput string) bool                                ===> email
 			
-func NotEmpty(stringInput string), theMessage string) bool                               ===> notempty
+func NotEmpty(stringInput string) bool                               ===> notempty
 			
-func IsURL(stringInput string), theMessage string) bool                                  ===> url
+func IsURL(stringInput string) bool                                  ===> url
 			
-func IsIP(stringInput string), theMessage string) bool                                   ===> ip
+func IsIP(stringInput string) bool                                   ===> ip
 			
-func IsEqualString(stringInput string, stringValue string ), theMessage string) bool     ===> equal
+func IsEqualString(stringInput string, stringValue string ) bool     ===> equal
 			
-func IsRgbHex(stringInput string), theMessage string) bool                               ===> rgbhex
+func IsRgbHex(stringInput string) bool                               ===> rgbhex
 			
-func IsRgbDecimal(stringInput string), theMessage string) bool                           ===> rgb
+func IsRgbDecimal(stringInput string) bool                           ===> rgb
 			
-func Uppercase(stringInput string), theMessage string) bool                              ===> upper
+func Uppercase(stringInput string) bool                              ===> upper
 			
-func Lowercase(stringInput string), theMessage string) bool                              ===> lower
+func Lowercase(stringInput string) bool                              ===> lower
 			
-func IsAlphaNumeric(stringInput string), theMessage string) bool                         ===> alphanumeric
+func IsAlphaNumeric(stringInput string) bool                         ===> alphanumeric
 
-func HasUppercase(stringInput string), theMessage string) bool                           ===> hasupper
+func HasUppercase(stringInput string) bool                           ===> hasupper
 		
-func HasLowercase(stringInput string), theMessage string) bool                           ===> haslower
+func HasLowercase(stringInput string) bool                           ===> haslower
 	
-func HasNumbers(stringInput string), theMessage string) bool                             ===> hasnumber
+func HasNumbers(stringInput string) bool                             ===> hasnumber
 	
-func HasLetters(stringInput string), theMessage string) bool                             ===> hasletter
+func HasLetters(stringInput string) bool                             ===> hasletter
 	
-func ContainSomthing(stringInput string, stringValue string ), theMessage string) bool   ===> containsomthing
+func ContainSomthing(stringInput string, stringValue string ) bool   ===> containsomthing
 
 
 
@@ -69,15 +69,15 @@ func ContainSomthing(stringInput string, stringValue string ), theMessage string
 #-- For Numeric Values
 
 
-func IsEqualNumeric(floatInput float64, floatValue float64), theMessage string) bool     ===> equal
+func IsEqualNumeric(floatInput float64, floatValue float64) bool     ===> equal
 
-func GreaterThan(floatInput float64, floatValue float64), theMessage string) bool        ===> gt
+func GreaterThan(floatInput float64, floatValue float64) bool        ===> gt
 
-func GreaterThanOrEqual(floatInput float64, floatValue float64), theMessage string) bool ===> gteq
+func GreaterThanOrEqual(floatInput float64, floatValue float64) bool ===> gteq
 
-func LessThan(floatInput float64, floatValue float64), theMessage string) bool           ===> lt
+func LessThan(floatInput float64, floatValue float64) bool           ===> lt
 
-func LessThanOrEqual(floatInput float64, floatValue float64), theMessage string) bool    ===> lteq
+func LessThanOrEqual(floatInput float64, floatValue float64) bool    ===> lteq
 
 
 
