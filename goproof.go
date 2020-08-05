@@ -3,12 +3,15 @@ package main
 import (
 	"GoProof/functions"
 	"errors"
+	"fmt"
+	"log"
+	"net/http"
 	"strconv"
 	"strings"
 )
 
 //Validate | Main function for validating input
-func Validate(input interface{}, rules []string) []error {
+func Validate(input interface{}, rules [][]string) []error {
 	var theErrors []error
 
 	//ResultSaver | This function pushes the result to Errors array
@@ -24,23 +27,16 @@ func Validate(input interface{}, rules []string) []error {
 		}
 	}
 
-	ExtractValues := func(rule string) (string, string, string) {
+	ExtractValues := func(rule []string) (string, string, string) {
 		var theRule string
 		var theValue string
 		var theMessage string = ""
 
-		ruleAndMessage := strings.Split(rule, "~>")
-		ruleAndValue := strings.Split(ruleAndMessage[0], "=")
-
-		//Extract value from 'value'
-		valueWithoutQ := strings.Split(ruleAndValue[1], "'")
-
-		//Set Rule and value
-		theRule = ruleAndValue[0]
-		theValue = valueWithoutQ[1]
+		theRule = rule[0]
+		theValue = rule[1]
 
 		//Extract custom message from 'message'
-		messageRemovedLeftQ := strings.TrimLeft(ruleAndMessage[1], "'")
+		messageRemovedLeftQ := strings.TrimLeft(rule[2], "'")
 		messageRemovedRightQ := strings.TrimRight(messageRemovedLeftQ, "'")
 		messageWithoutQ := messageRemovedRightQ
 
@@ -104,22 +100,56 @@ func Validate(input interface{}, rules []string) []error {
 			case "ip":
 				ResultSaver(functions.IsIP(stringInput), theMessage)
 
-			case "cupper":
+			//Is Equal String
+			case "equal":
+				ResultSaver(functions.IsEqualString(stringInput, stringValue), theMessage)
 
-				//Todo: String Compare Equality
-				//Todo: Contain Uppercase
-				//Todo: Contain Lowercase
-				//Todo: Contain Numbers
-				//Todo: Contain Alphabet
-				//Todo: isAlphaNumeric
-				//Todo: Contain somthing
-				//Todo: Uppercase & Lowercase
-				//Todo: RGB HEX & RGB Decimal
+			//Is RGB Hex
+			case "rgbhex":
+				ResultSaver(functions.IsRgbHex(stringInput), theMessage)
+
+			//Is RGB (Decimal)
+			case "rgb":
+				ResultSaver(functions.IsRgbDecimal(stringInput), theMessage)
+
+			//Is Uppercase
+			case "upper":
+				ResultSaver(functions.Uppercase(stringInput), theMessage)
+
+			//Is Lowercase
+			case "lower":
+				ResultSaver(functions.Lowercase(stringInput), theMessage)
+
+			//isAlphaNumeric
+			case "alphanumeric":
+				ResultSaver(functions.IsAlphaNumeric(stringInput), theMessage)
+
+			//hasUppercase
+			case "hasupper":
+				ResultSaver(functions.HasUppercase(stringInput), theMessage)
+
+			//isAlphaNumeric
+			case "haslower":
+				ResultSaver(functions.HasLowercase(stringInput), theMessage)
+
+			case "hasnumber":
+				ResultSaver(functions.HasNumbers(stringInput), theMessage)
+
+			case "hasletter":
+				ResultSaver(functions.HasLetters(stringInput), theMessage)
+
+			case "containsomthing":
+				ResultSaver(functions.ContainSomthing(stringInput, stringValue), theMessage)
+
 			}
 		} else if isInputFloat && isValueNumeric {
 
 			//Numeric Rules
 			switch theRule {
+
+			//Is Equal Numeric
+			case "equal":
+				ResultSaver(functions.IsEqualNumeric(floatInput, floatValue), theMessage)
 
 			//Greater Than
 			case "gt":
@@ -144,4 +174,30 @@ func Validate(input interface{}, rules []string) []error {
 	}
 
 	return theErrors
+}
+
+//=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/==> TESTING ROUTE (Just for test rules) <=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=
+
+func testRule(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome to the HomePage!")
+
+	const containsomthing string = "mishan"
+
+	validationErrors := Validate(15, [][]string{
+		{"equal", "15", "it's not equal 🖕"},
+	})
+
+	if len(validationErrors) > 0 {
+		log.Print(validationErrors)
+	}
+
+}
+
+func handleRequests() {
+	http.HandleFunc("/", testRule)
+	log.Fatal(http.ListenAndServe(":1998", nil))
+}
+
+func main() {
+	handleRequests()
 }
