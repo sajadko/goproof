@@ -6,15 +6,15 @@ A simple and smooth validation package for GoLang ( and Frameworks )
 Usage
 ---
 ```go
-	const myEmail string = "test@testgoproof.test"
+const myEmail string = "test@testgoproof.test"
 
-	validationErrors := Validate(myEmail, [][]string{
-		{"email", "t", "it's not a valid email :( "},
-	})
+validationErrors := Validate(myEmail, [][]string{
+	{"email", "t", "it's not a valid email :( "},
+})
 
-	if len(validationErrors) > 0 {
-		log.Print(validationErrors)
-	}
+if len(validationErrors) > 0 {
+	log.Print(validationErrors)
+}
 
 ```
 **The "Validation" main function returns the errors.**
@@ -25,7 +25,9 @@ Usage
 Functions and Keywords
 ---
 ```go
+
 #-- For Strings
+
 
 func MaxLength(stringInput, stringValue), theMessage)           ===> max
 			
@@ -60,5 +62,23 @@ func HasNumbers(stringInput), theMessage)                       ===> hasnumber
 func HasLetters(stringInput), theMessage)                       ===> hasletter
 	
 func ContainSomthing(stringInput, stringValue), theMessage      ===> containsomthing
+
+
+
+
+#-- For Numeric Values
+
+
+func IsEqualNumeric(floatInput, floatValue), theMessage      	===> equal
+
+func GreaterThan(floatInput, floatValue), theMessage      		===> gt
+
+func GreaterThanOrEqual(floatInput, floatValue), theMessage     ===> gteq
+
+func LessThan(floatInput, floatValue), theMessage      			===> lt
+
+func LessThanOrEqual(floatInput, floatValue), theMessage      	===> lteq
+
+
 
 ```
