@@ -39,7 +39,7 @@ if len(validationErrors2) > 0 {
 
 ```
 
-**The "Validation" main function returns the errors.**
+**The "Validation" main function returns an array of existing errors.**
 
 
 
