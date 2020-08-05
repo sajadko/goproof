@@ -181,10 +181,10 @@ func Validate(input interface{}, rules [][]string) []error {
 func testRule(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 
-	const containsomthing string = "mishan"
+	const myEmail string = "test@testgoproof.test"
 
-	validationErrors := Validate(15, [][]string{
-		{"equal", "15", "it's not equal 🖕"},
+	validationErrors := Validate(myEmail, [][]string{
+		{"email", "t", "it's not a valid email :( "},
 	})
 
 	if len(validationErrors) > 0 {
