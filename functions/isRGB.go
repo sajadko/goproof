@@ -11,7 +11,11 @@ func IsRgbDecimal(input string) bool {
 
 //IsRgbHex rule
 func IsRgbHex(input string) bool {
+
 	const pattern string = "^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+
 	result, _ := regexp.MatchString(pattern, input)
+
 	return result
+	
 }

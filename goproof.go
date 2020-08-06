@@ -11,7 +11,7 @@ import (
 )
 
 //Validate | Main function for validating input
-func Validate(input interface{}, rules [][]string) []error {
+func Validate(input interface{}, rules [][]string, errorsArray *[]error) {
 	var theErrors []error
 
 	//ResultSaver | This function pushes the result to Errors array
@@ -65,18 +65,17 @@ func Validate(input interface{}, rules [][]string) []error {
 
 		//*Check value is string or number(float64)
 		stringValue := theValue
-		floatValue, errFloat := strconv.ParseFloat(theValue, 64)
-		var isValueNumeric bool
-		if errFloat != nil {
-			isValueNumeric = false
-		} else {
-			isValueNumeric = true
-		}
+		floatValue, _ := strconv.ParseFloat(theValue, 64)
 
-		if isInputStr && !isValueNumeric {
+		if isInputStr {
 
 			//Strings Rules
 			switch theRule {
+
+			//Required
+			case "required":
+				ResultSaver(functions.RequiredString(stringInput), theMessage)
+
 			//Maximum Length
 			case "max":
 				ResultSaver(functions.MaxLength(stringInput, stringValue), theMessage)
@@ -124,25 +123,73 @@ func Validate(input interface{}, rules [][]string) []error {
 			case "alphanumeric":
 				ResultSaver(functions.IsAlphaNumeric(stringInput), theMessage)
 
-			//hasUppercase
+			//Has Uppercase
 			case "hasupper":
 				ResultSaver(functions.HasUppercase(stringInput), theMessage)
 
-			//isAlphaNumeric
+			//Has Lowercase
 			case "haslower":
 				ResultSaver(functions.HasLowercase(stringInput), theMessage)
 
+			//Has Number
 			case "hasnumber":
 				ResultSaver(functions.HasNumbers(stringInput), theMessage)
 
+			//Has Letter
 			case "hasletter":
 				ResultSaver(functions.HasLetters(stringInput), theMessage)
 
+			//Contain Somthing
 			case "containsomthing":
 				ResultSaver(functions.ContainSomthing(stringInput, stringValue), theMessage)
 
+			//Is Time
+			case "time":
+				ResultSaver(functions.IsTime(stringInput, stringValue), theMessage)
+
+			//Is Phone Number
+			case "phone":
+				ResultSaver(functions.IsPhoneNumber(stringInput), theMessage)
+
+			//Is IMEI
+			case "imei":
+				ResultSaver(functions.IsIMEI(stringInput), theMessage)
+
+			// //Is ISBN10
+			// case "isbn10":
+			// 	ResultSaver(functions.IsISBN10(stringInput), theMessage)
+
+			// //Is ISBN13
+			// case "isbn13":
+			// 	ResultSaver(functions.IsISBN13(stringInput), theMessage)
+
+			//Is IMEI
+			case "json":
+				ResultSaver(functions.IsJSON(stringInput), theMessage)
+
+			//Is IMEI
+			case "haswhitespace":
+				ResultSaver(functions.HasWhiteSpace(stringInput), theMessage)
+
+			//Is CreditCard
+			case "creditcard":
+				ResultSaver(functions.IsCreditCard(stringInput), theMessage)
+
+			//Is DataURI
+			case "datauri":
+				ResultSaver(functions.IsDataURI(stringInput), theMessage)
+
+				//!Test ISBN10
+				//!Test ISBN13
+
+				//Todo: IsASCII
+				//Todo: Latitude
+				//Todo: Longitude
+				//Todo: IsDNSName
+				//Todo: IsHexadecimal
+				//Todo: IsHash (IsMD3 , MD4 , MD5 , IsSHA512 , IsSHA384 , IsSHA256)
 			}
-		} else if isInputFloat && isValueNumeric {
+		} else if isInputFloat {
 
 			//Numeric Rules
 			switch theRule {
@@ -167,41 +214,74 @@ func Validate(input interface{}, rules [][]string) []error {
 			case "lteq":
 				ResultSaver(functions.LessThanOrEqual(floatInput, floatValue), theMessage)
 
+			//Multiple
+			case "multiple":
+				ResultSaver(functions.Multiple(floatInput, floatValue), theMessage)
+
 			}
 
 		}
 
 	}
 
-	return theErrors
+	for _, err := range theErrors {
+		*errorsArray = append(*errorsArray, err)
+	}
+
 }
+
+//Todo: Validate Struct
+//Todo: Validate Map
 
 //=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/==> TESTING ROUTE (Just for test rules) <=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=
 
 func testRule(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 
-	const myEmail string = "test@testgoproof.test"
+	// const myEmail string = "test@testgoproof.test"
 
-	validationErrors := Validate(myEmail, [][]string{
-		{"email", "t", "it's not a valid email :( "},
-	})
+	// validationErrors := Validate(myEmail, [][]string{
+	// 	{"email", "t", "it's not a valid email :( "},
+	// })
 
-	if len(validationErrors) > 0 {
-		log.Print(validationErrors)
+	// if len(validationErrors) > 0 {
+	// 	log.Print(validationErrors)
+	// }
+
+	var usernameErrors []error
+	Validate("Sajadko1", [][]string{
+		{"required", "t", "please enter a username"},
+		{"max", "15", "max length for username is 15 character"},
+		{"min", "7", "min length for username is 7 character"},
+		{"hasupper", "t", "username must contain uppercase"},
+		{"haslower", "t", "username must contain lowercase"},
+		{"hasnumber", "t", "username must contain hasnumber"},
+	}, &usernameErrors)
+
+	var emailErrors []error
+	Validate("sajadk48@gmail.com", [][]string{
+		{"required", "t", "please enter an email"},
+		{"email", "t", "please enter a valid email"},
+	}, &emailErrors)
+
+	var phoneErrors []error
+	Validate("+79261234567", [][]string{
+		{"phone", "t", "please enter an valid phone number"},
+	}, &phoneErrors)
+
+	var imeiErrors []error
+	Validate("990000862471854", [][]string{
+		{"imei", "t", "please enter an valid imei"},
+	}, &imeiErrors)
+
+	var errors = map[string][]error{
+		"username": usernameErrors,
+		"email":    emailErrors,
+		"phone":    phoneErrors,
+		"imei":     imeiErrors,
 	}
 
-
-	const number int = 25
-	validationErrors2 := Validate(number, [][]string{
-		{"gt","12", "the number isn't greater than 12"},
-		{"lt","30", "the number isn't less than 30"},
-	})
-	
-	if len(validationErrors2) > 0 {
-		log.Print(validationErrors2)
-	}
-
+	log.Println(errors)
 
 }
 
