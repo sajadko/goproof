@@ -2,13 +2,15 @@
 
 A simple and smooth validation package for GoLang ( and Frameworks )
 
+<a href="https://pkg.go.dev/github.com/sajadko/goproof?tab=doc">
+	<img src="https://img.shields.io/badge/pkg-Reference-00add8?logo=go&style=for-the-badge">
+</a>
+
 ![](https://img.shields.io/github/issues/sajadko/goproof?color=%23ff4800&style=for-the-badge)
 ![](https://img.shields.io/github/stars/sajadko/goproof?color=%23fe7f2d&style=for-the-badge)
 ![](https://img.shields.io/github/forks/sajadko/goproof?color=%23023e7d&style=for-the-badge)
 ![](https://img.shields.io/github/license/sajadko/goproof?color=%238ac926&style=for-the-badge)
-<a href="https://pkg.go.dev/github.com/sajadko/goproof?tab=doc">
-	<img src="https://img.shields.io/badge/pkg-Reference-00add8?logo=go&style=for-the-badge">
-</a>
+
 
 Usage Examples
 ---
