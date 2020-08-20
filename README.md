@@ -6,6 +6,7 @@ A simple and smooth validation package for GoLang ( and Frameworks )
 ![](https://img.shields.io/github/stars/sajadko/goproof?color=%23fe7f2d&style=for-the-badge)
 ![](https://img.shields.io/github/forks/sajadko/goproof?color=%23023e7d&style=for-the-badge)
 ![](https://img.shields.io/github/license/sajadko/goproof?color=%238ac926&style=for-the-badge)
+![](https://img.shields.io/badge/style-Refrence-00add8?logo=go&style=for-the-badge)
 
 
 Usage Examples
