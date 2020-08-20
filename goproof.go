@@ -1,13 +1,14 @@
 package main
 
 import (
-	"GoProof/functions"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/sajadko/goproof/functions"
 )
 
 //Validate | Main function for validating input
