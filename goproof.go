@@ -3,7 +3,6 @@ package goproof
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -234,63 +233,88 @@ func Validate(input interface{}, rules [][]string, errorsArray *[]error) {
 //Todo: Validate Struct
 //Todo: Validate Map
 
-//=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/==> TESTING ROUTE (Just for test rules) <=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=
+//ValidateRequest validates (iris, gin, echo ...) framework requests and in a general form it can Validate any http.Request. this function take request and rules as input
+func ValidateRequest(request *http.Request, rules map[string][][]string) map[string][]error {
 
-func testRule(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the HomePage!")
+	var errors map[string][]error = make(map[string][]error)
+	var formValues map[string]string = make(map[string]string)
 
-	// const myEmail string = "test@testgoproof.test"
-
-	// validationErrors := Validate(myEmail, [][]string{
-	// 	{"email", "t", "it's not a valid email :( "},
-	// })
-
-	// if len(validationErrors) > 0 {
-	// 	log.Print(validationErrors)
-	// }
-
-	var usernameErrors []error
-	Validate("Sajadko1", [][]string{
-		{"required", "t", "please enter a username"},
-		{"max", "15", "max length for username is 15 character"},
-		{"min", "7", "min length for username is 7 character"},
-		{"hasupper", "t", "username must contain uppercase"},
-		{"haslower", "t", "username must contain lowercase"},
-		{"hasnumber", "t", "username must contain hasnumber"},
-	}, &usernameErrors)
-
-	var emailErrors []error
-	Validate("sajadk48@gmail.com", [][]string{
-		{"required", "t", "please enter an email"},
-		{"email", "t", "please enter a valid email"},
-	}, &emailErrors)
-
-	var phoneErrors []error
-	Validate("+79261234567", [][]string{
-		{"phone", "t", "please enter an valid phone number"},
-	}, &phoneErrors)
-
-	var imeiErrors []error
-	Validate("990000862471854", [][]string{
-		{"imei", "t", "please enter an valid imei"},
-	}, &imeiErrors)
-
-	var errors = map[string][]error{
-		"username": usernameErrors,
-		"email":    emailErrors,
-		"phone":    phoneErrors,
-		"imei":     imeiErrors,
+	r := request
+	r.ParseMultipartForm(32)
+	for key, val := range r.MultipartForm.Value {
+		formValues[key] = val[0]
 	}
 
-	log.Println(errors)
+	for key, val := range rules {
+		var theErrors []error
+		Validate(formValues[key], val, &theErrors)
+		errors[key] = theErrors
+	}
+
+	fmt.Println(formValues)
+	fmt.Println(errors)
+
+	return errors
 
 }
 
-func handleRequests() {
-	http.HandleFunc("/", testRule)
-	log.Fatal(http.ListenAndServe(":1998", nil))
-}
+//=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/==> TESTING ROUTE (Just for test rules) <=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=
 
-func main() {
-	handleRequests()
-}
+// func testRule(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprintf(w, "Welcome to the HomePage!")
+
+// 	// const myEmail string = "test@testgoproof.test"
+
+// 	// validationErrors := Validate(myEmail, [][]string{
+// 	// 	{"email", "t", "it's not a valid email :( "},
+// 	// })
+
+// 	// if len(validationErrors) > 0 {
+// 	// 	log.Print(validationErrors)
+// 	// }
+
+// 	var usernameErrors []error
+// 	Validate("Sajadko1", [][]string{
+// 		{"required", "t", "please enter a username"},
+// 		{"max", "15", "max length for username is 15 character"},
+// 		{"min", "7", "min length for username is 7 character"},
+// 		{"hasupper", "t", "username must contain uppercase"},
+// 		{"haslower", "t", "username must contain lowercase"},
+// 		{"hasnumber", "t", "username must contain hasnumber"},
+// 	}, &usernameErrors)
+
+// 	var emailErrors []error
+// 	Validate("sajadk48@gmail.com", [][]string{
+// 		{"required", "t", "please enter an email"},
+// 		{"email", "t", "please enter a valid email"},
+// 	}, &emailErrors)
+
+// 	var phoneErrors []error
+// 	Validate("+79261234567", [][]string{
+// 		{"phone", "t", "please enter an valid phone number"},
+// 	}, &phoneErrors)
+
+// 	var imeiErrors []error
+// 	Validate("990000862471854", [][]string{
+// 		{"imei", "t", "please enter an valid imei"},
+// 	}, &imeiErrors)
+
+// 	var errors = map[string][]error{
+// 		"username": usernameErrors,
+// 		"email":    emailErrors,
+// 		"phone":    phoneErrors,
+// 		"imei":     imeiErrors,
+// 	}
+
+// 	log.Println(errors)
+
+// }
+
+// func handleRequests() {
+// 	http.HandleFunc("/", testRule)
+// 	log.Fatal(http.ListenAndServe(":1998", nil))
+// }
+
+// func main() {
+// 	handleRequests()
+// }
