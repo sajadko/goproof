@@ -48,9 +48,23 @@ if len(validationErrors2) > 0 {
 
 
 
+Validate Request in Frameworks (Iris, Gin, Echo, ...)
+---
+You can use "ValidateRequest()" function to validate request. This function returns a map of errors in type of map[string][]error
 
+**Example**
+```go
 
+myErrors = goproof.ValidateRequest(request, myRules)
 
+for key, value := range myErrors {
+	fmt.Println(key)
+	for _, err := range value {
+		fmt.Println(err)
+	}
+}
+
+```
 
 
 
