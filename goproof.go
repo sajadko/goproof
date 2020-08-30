@@ -2,7 +2,6 @@ package goproof
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -234,7 +233,7 @@ func Validate(input interface{}, rules [][]string, errorsArray *[]error) {
 //Todo: Validate Map
 
 //ValidateRequest validates (iris, gin, echo ...) framework requests and in a general form it can Validate any http.Request. this function take request and rules as input
-func ValidateRequest(request *http.Request, rules map[string][][]string) map[string][]error {
+func ValidateRequest(request *http.Request, rules map[string][][]string) map[string][]string {
 
 	var errors map[string][]error = make(map[string][]error)
 	var formValues map[string]string = make(map[string]string)
@@ -251,10 +250,27 @@ func ValidateRequest(request *http.Request, rules map[string][][]string) map[str
 		errors[key] = theErrors
 	}
 
-	fmt.Println(formValues)
-	fmt.Println(errors)
+	// fmt.Println(formValues)
+	// fmt.Println(errors)
 
-	return errors
+	var newErrors map[string][]string = make(map[string][]string)
+	for key := range errors {
+		newErrors[key] = make([]string, len(errors[key]))
+	}
+
+	for key, errors := range errors {
+		for i, err := range errors {
+			newErrors[key][i] = err.Error()
+		}
+	}
+
+	for key := range newErrors {
+		if len(newErrors[key]) == 0 {
+			delete(newErrors, key)
+		}
+	}
+
+	return newErrors
 
 }
 
